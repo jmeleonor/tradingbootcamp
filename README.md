@@ -1,2 +1,0 @@
-# tradingbootcamp
-trading bootcamp
