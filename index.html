@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4-Day Trading Bootcamp</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body { 
+      background: #0a0e1a; 
+      color: #ffffff; 
+      line-height: 1.6; 
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Animated gradient background */
+    .bg-gradient {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #0a0e1a 0%, #1a2614 50%, #0a0e1a 100%);
+      z-index: -2;
+    }
+
+    .bg-gradient::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 20% 50%, rgba(188, 224, 56, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(156, 186, 46, 0.15) 0%, transparent 50%);
+      animation: drift 20s ease-in-out infinite;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-50px, -50px) rotate(180deg); }
+    }
+
+    /* HERO SECTION */
+    .hero {
+      min-height: 70vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px 40px;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 900px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 20px;
+      background: rgba(188, 224, 56, 0.2);
+      border: 1px solid rgba(188, 224, 56, 0.4);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 900;
+      margin-bottom: 25px;
+      background: linear-gradient(135deg, #ffffff 0%, #bce038 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+
+    .hero p { 
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem); 
+      color: #b4b4b4; 
+      margin-bottom: 35px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* BUTTONS */
+    .btn-primary {
+      display: inline-block;
+      padding: 18px 45px;
+      background: linear-gradient(135deg, #bce038 0%, #9db82e 100%);
+      color: #0a0e1a;
+      text-decoration: none;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 40px rgba(188, 224, 56, 0.3);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn-primary::before {
+      content: "";
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 50px rgba(188, 224, 56, 0.5);
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      padding: 18px 45px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      font-weight: 700;
+      border: 2px solid rgba(188, 224, 56, 0.3);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      margin-left: 15px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(188, 224, 56, 0.1);
+      border-color: rgba(188, 224, 56, 0.5);
+      transform: translateY(-3px);
+    }
+
+    /* CONTAINER */
+    .container { 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      padding: 80px 20px; 
+      position: relative;
+    }
+
+    .section {
+      margin-bottom: 100px;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #ffffff 0%, #bce038 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-header p {
+      color: #888;
+      font-size: 1.1rem;
+    }
+
+    /* COUNTDOWN */
+    .countdown-box {
+      background: linear-gradient(135deg, rgba(188, 224, 56, 0.1) 0%, rgba(156, 186, 46, 0.1) 100%);
+      border: 1px solid rgba(188, 224, 56, 0.3);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      backdrop-filter: blur(20px);
+      margin-bottom: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .countdown-box::before {
+      content: "";
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(188, 224, 56, 0.1) 0%, transparent 70%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.5; }
+    }
+
+    .countdown-box h3 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .countdown-box .date {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #bce038;
+      position: relative;
+    }
+
+    /* CURRICULUM GRID */
+   .curriculum-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .curriculum-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .day-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 35px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .day-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 4px;
+      background: linear-gradient(90deg, #bce038, #9db82e);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .day-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .day-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(188, 224, 56, 0.5);
+      box-shadow: 0 20px 60px rgba(188, 224, 56, 0.2);
+    }
+
+    .day-number {
+      display: inline-block;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #bce038, #9db82e);
+      color: #0a0e1a;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .day-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .day-card p {
+      color: #b4b4b4;
+      line-height: 1.7;
+    }
+
+    /* STEPS */
+    .steps-container {
+      position: relative;
+    }
+
+    .step {
+      background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 30px 40px;
+      border-radius: 20px;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .step:hover {
+      border-color: rgba(188, 224, 56, 0.5);
+      transform: translateX(10px);
+    }
+
+    .step-number {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #bce038, #9db82e);
+      color: #0a0e1a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      color: #fff;
+    }
+
+    .step-content p {
+      color: #888;
+    }
+
+    /* TESTIMONIALS */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .testimonial-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 35px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(188, 224, 56, 0.5);
+    }
+
+    .quote-icon {
+      font-size: 3rem;
+      color: #bce038;
+      opacity: 0.3;
+      line-height: 1;
+    }
+
+    .testimonial-card p {
+      color: #d4d4d4;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin: 20px 0;
+    }
+
+    .testimonial-card h4 {
+      color: #bce038;
+      font-weight: 600;
+    }
+
+    /* FAQ */
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .faq-item:hover {
+      border-color: rgba(188, 224, 56, 0.5);
+    }
+
+    .faq-item h4 {
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .faq-item p {
+      color: #b4b4b4;
+      line-height: 1.7;
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      text-align: center;
+      padding: 80px 40px;
+      background: linear-gradient(135deg, rgba(188, 224, 56, 0.1) 0%, rgba(156, 186, 46, 0.1) 100%);
+      border: 1px solid rgba(188, 224, 56, 0.3);
+      border-radius: 30px;
+      backdrop-filter: blur(20px);
+      margin-bottom: 80px;
+    }
+
+    .cta-section h2 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #bce038 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cta-section p {
+      color: #b4b4b4;
+      font-size: 1.2rem;
+      margin-bottom: 35px;
+    }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .btn-secondary {
+        margin-left: 0;
+        margin-top: 15px;
+        display: block;
+      }
+
+      .step {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .step:hover {
+        transform: translateX(0) translateY(-10px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="badge">🔥 Limited Slots Available</div>
+      <h1>4-Day Trading Bootcamp</h1>
+      <p>Transform your trading skills before 2026. Learn proven strategies, build your own system, and trade with confidence.</p>
+      <div>
+        <button onclick="document.querySelector('#curriculum').scrollIntoView({ behavior: 'smooth' })" class="btn-primary">Learn More</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- COUNTDOWN -->
+    <div class="countdown-box">
+      <h3>Bootcamp Schedule</h3>
+      <div class="date">TBA</div>
+      <div style="margin-top: 20px; font-size: 1.3rem; font-weight: 700; color: #bce038; letter-spacing: 1px;">8:00pm - 10:00pm PHT</div>
+      <div style="margin-top: 8px; font-size: 1rem; color: #b4b4b4; font-weight: 600;">Via Zoom</div>
+    </div>
+
+    <!-- CURRICULUM -->
+    <div class="section" id="curriculum">
+      <div class="section-header">
+        <h2>What You'll Learn</h2>
+        <p>4 intensive days of practical trading education</p>
+      </div>
+      <div class="curriculum-grid">
+        <div class="day-card">
+          <span class="day-number">Day 1</span>
+          <h3>Idea Generation</h3>
+          <p>Learn how to identify high-probability trading opportunities and develop a systematic approach to market analysis.</p>
+        </div>
+        <div class="day-card">
+          <span class="day-number">Day 2</span>
+          <h3>Strategy 1 & 2</h3>
+          <p>Master two proven trading strategies with real-world examples and backtested results.</p>
+        </div>
+        <div class="day-card">
+          <span class="day-number">Day 3</span>
+          <h3>Build Your System</h3>
+          <p>Create your personalized trading strategy tailored to your risk tolerance and trading style.</p>
+        </div>
+        <div class="day-card">
+          <span class="day-number">Day 4</span>
+          <h3>Q&A + Live Charting</h3>
+          <p>Get your questions answered and watch live chart analysis with real-time trading scenarios.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW TO JOIN -->
+    <div class="section" id="join">
+      <div class="section-header">
+        <h2>How to Join</h2>
+        <p>Simple steps to secure your spot</p>
+      </div>
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Open Your Account</h4>
+            <p>Register a trading account with FPMarkets using the official link below.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Complete KYC</h4>
+            <p>Submit your Government ID and Proof of Address (24-48 hours verification)</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Fund Your Account</h4>
+            <p>Minimum deposit of $50 required to activate your account</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h4>Confirm Your Registration</h4>
+            <p>Send your account number details to facebook.com/traderoll or traderollph@gmail.com</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h4>Receive Zoom Link</h4>
+            <p>Get your bootcamp access link once verified and funded</p>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 50px;">
+        <a href="https://portal.fpmarkets.com/register?redir=stv&fpm-affiliate-utm-source=IB&fpm-affiliate-agt=64840" class="btn-primary" target="_blank">Open FPMarkets Account</a>
+      </div>
+    </div>
+
+   
+
+    <!-- FAQ -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Frequently Asked Questions</h2>
+        <p>Everything you need to know</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h4>Do I need trading experience?</h4>
+          <p>No. Beginners and intermediate traders both benefit from this bootcamp. We start with fundamentals and progress to advanced concepts.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Is the $50 deposit required?</h4>
+          <p>Yes. This is the minimum deposit required by FPMarkets to activate your trading account.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <h2>Ready to Level Up?</h2>
+      <p>Be a better trader this 2026!</p>
+      <a href="https://portal.fpmarkets.com/register?redir=stv&fpm-affiliate-utm-source=IB&fpm-affiliate-agt=64840" class="btn-primary" target="_blank">Secure Your Spot Now</a>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p>&copy; 2025 Trading Bootcamp. All rights reserved.</p>
+  </div>
+
+</body>
+</html>
+
